@@ -35,7 +35,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { getCategories, getExpense, getGroup, randomId } from '@/lib/api'
-import { ExpenseFormValues, expenseFormSchema } from '@/lib/schemas'
+import { ExpenseFormValues, SplitMode, expenseFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
@@ -84,7 +84,7 @@ export function ExpenseForm({
             participant: participantId,
             shares: String(shares / 100) as unknown as number,
           })),
-          splitMode: expense.splitMode,
+          splitMode: expense.splitMode as any,
           isReimbursement: expense.isReimbursement,
           documents: expense.documents,
         }
@@ -103,7 +103,7 @@ export function ExpenseForm({
               : undefined,
           ],
           isReimbursement: true,
-          splitMode: 'EVENLY',
+          splitMode: SplitMode.EVENLY,
           documents: [],
         }
       : {
@@ -122,7 +122,7 @@ export function ExpenseForm({
           })),
           paidBy: getSelectedPayer(),
           isReimbursement: false,
-          splitMode: 'EVENLY',
+          splitMode: SplitMode.EVENLY,
           documents: searchParams.get('imageUrl')
             ? [
                 {
@@ -399,9 +399,9 @@ export function ExpenseForm({
                                       })}
                                     >
                                       {match(form.getValues().splitMode)
-                                        .with('BY_SHARES', () => <>share(s)</>)
-                                        .with('BY_PERCENTAGE', () => <>%</>)
-                                        .with('BY_AMOUNT', () => (
+                                        .with(SplitMode.BY_SHARES, () => <>share(s)</>)
+                                        .with(SplitMode.BY_PERCENTAGE, () => <>%</>)
+                                        .with(SplitMode.BY_AMOUNT, () => (
                                           <>{group.currency}</>
                                         ))
                                         .otherwise(() => (

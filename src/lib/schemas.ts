@@ -1,5 +1,11 @@
-import { SplitMode } from '@prisma/client'
 import * as z from 'zod'
+
+export enum SplitMode {
+  EVENLY = "EVENLY",
+  BY_SHARES = "BY_SHARES",
+  BY_PERCENTAGE = "BY_PERCENTAGE",
+  BY_AMOUNT = "BY_AMOUNT"
+}
 
 export const groupFormSchema = z
   .object({
@@ -103,7 +109,7 @@ export const expenseFormSchema = z
       .enum<SplitMode, [SplitMode, ...SplitMode[]]>(
         Object.values(SplitMode) as any,
       )
-      .default('EVENLY'),
+      .default(SplitMode.EVENLY),
     isReimbursement: z.boolean(),
     documents: z
       .array(

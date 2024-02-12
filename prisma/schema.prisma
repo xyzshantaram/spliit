@@ -6,9 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider = "sqlite"
+  url      = "file:./spliit.db"
 }
 
 model Group {
@@ -39,7 +38,7 @@ model Category {
 model Expense {
   id              String            @id
   group           Group             @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  expenseDate     DateTime          @default(dbgenerated("CURRENT_DATE")) @db.Date
+  expenseDate     DateTime          @default(dbgenerated("CURRENT_TIMESTAMP"))
   title           String
   category        Category?         @relation(fields: [categoryId], references: [id])
   categoryId      Int               @default(0)
@@ -49,7 +48,7 @@ model Expense {
   paidFor         ExpensePaidFor[]
   groupId         String
   isReimbursement Boolean           @default(false)
-  splitMode       SplitMode         @default(EVENLY)
+  splitMode       String            @default("EVENLY")
   createdAt       DateTime          @default(now())
   documents       ExpenseDocument[]
 }
@@ -61,13 +60,6 @@ model ExpenseDocument {
   height    Int
   Expense   Expense? @relation(fields: [expenseId], references: [id])
   expenseId String?
-}
-
-enum SplitMode {
-  EVENLY
-  BY_SHARES
-  BY_PERCENTAGE
-  BY_AMOUNT
 }
 
 model ExpensePaidFor {

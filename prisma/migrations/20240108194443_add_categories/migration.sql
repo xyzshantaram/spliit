@@ -4,18 +4,6 @@
   - Added the required column `categoryId` to the `Expense` table without a default value. This is not possible if the table is not empty.
 
 */
--- AlterTable
-ALTER TABLE "Expense" ADD COLUMN     "categoryId" INTEGER NOT NULL DEFAULT 0;
-
--- CreateTable
-CREATE TABLE "Category" (
-    "id" SERIAL NOT NULL,
-    "grouping" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-
-    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
-);
-
 -- Insert categories
 INSERT INTO "Category" ("id", "grouping", "name") VALUES (0, 'Uncategorized', 'General');
 INSERT INTO "Category" ("id", "grouping", "name") VALUES (1, 'Uncategorized', 'Payment');
@@ -60,6 +48,3 @@ INSERT INTO "Category" ("id", "grouping", "name") VALUES (39, 'Utilities', 'Heat
 INSERT INTO "Category" ("id", "grouping", "name") VALUES (40, 'Utilities', 'Trash');
 INSERT INTO "Category" ("id", "grouping", "name") VALUES (41, 'Utilities', 'TV/Phone/Internet');
 INSERT INTO "Category" ("id", "grouping", "name") VALUES (42, 'Utilities', 'Water');
-
--- AddForeignKey
-ALTER TABLE "Expense" ADD CONSTRAINT "Expense_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

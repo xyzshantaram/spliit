@@ -15,12 +15,10 @@ export async function createGroup(groupFormValues: GroupFormValues) {
       name: groupFormValues.name,
       currency: groupFormValues.currency,
       participants: {
-        createMany: {
-          data: groupFormValues.participants.map(({ name }) => ({
-            id: randomId(),
-            name,
-          })),
-        },
+        create: groupFormValues.participants.map(({ name }) => ({
+          id: randomId(),
+          name,
+        })),
       },
     },
     include: { participants: true },
@@ -54,23 +52,19 @@ export async function createExpense(
       paidById: expenseFormValues.paidBy,
       splitMode: expenseFormValues.splitMode,
       paidFor: {
-        createMany: {
-          data: expenseFormValues.paidFor.map((paidFor) => ({
-            participantId: paidFor.participant,
-            shares: paidFor.shares,
-          })),
-        },
+        create: expenseFormValues.paidFor.map((paidFor) => ({
+          participantId: paidFor.participant,
+          shares: paidFor.shares,
+        })),
       },
       isReimbursement: expenseFormValues.isReimbursement,
       documents: {
-        createMany: {
-          data: expenseFormValues.documents.map((doc) => ({
-            id: randomId(),
-            url: doc.url,
-            width: doc.width,
-            height: doc.height,
-          })),
-        },
+        create: expenseFormValues.documents.map((doc) => ({
+          id: randomId(),
+          url: doc.url,
+          width: doc.width,
+          height: doc.height,
+        })),
       },
     },
   })
@@ -214,14 +208,12 @@ export async function updateGroup(
               name: participant.name,
             },
           })),
-        createMany: {
-          data: groupFormValues.participants
-            .filter((participant) => participant.id === undefined)
-            .map((participant) => ({
-              id: randomId(),
-              name: participant.name,
-            })),
-        },
+        create: groupFormValues.participants
+          .filter((participant) => participant.id === undefined)
+          .map((participant) => ({
+            id: randomId(),
+            name: participant.name,
+          })),
       },
     },
   })

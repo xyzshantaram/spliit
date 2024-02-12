@@ -41,8 +41,9 @@ export function CategorySelector({
   useEffect(() => {
     setValue(defaultValue)
     onValueChange(defaultValue)
-  }, [defaultValue])
+  }, [defaultValue, onValueChange])
 
+  console.warn(categories);
   const selectedCategory =
     categories.find((category) => category.id === value) ?? categories[0]
 
@@ -169,6 +170,7 @@ const CategoryButton = forwardRef<HTMLButtonElement, CategoryButtonProps>(
 CategoryButton.displayName = 'CategoryButton'
 
 function CategoryLabel({ category }: { category: Category }) {
+  console.log(category);
   return (
     <div className="flex items-center gap-3">
       <CategoryIcon category={category} className="w-4 h-4" />
