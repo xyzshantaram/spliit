@@ -1,6 +1,7 @@
 import { getGroupExpenses } from '@/lib/api'
 import { Participant } from '@prisma/client'
 import { match } from 'ts-pattern'
+import { SplitMode } from './schemas';
 
 export type Balances = Record<
   Participant['id'],
@@ -37,12 +38,12 @@ export function getBalances(
 
       const isLast = index === paidFors.length - 1
 
-      const [shares, totalShares] = match(expense.splitMode)
-        .with('EVENLY', () => [1, paidFors.length])
-        .with('BY_SHARES', () => [paidFor.shares, totalPaidForShares])
-        .with('BY_PERCENTAGE', () => [paidFor.shares, totalPaidForShares])
-        .with('BY_AMOUNT', () => [paidFor.shares, totalPaidForShares])
-        .exhaustive()
+      const [shares, totalShares] = match(expense.splitMode as SplitMode)
+        .with(SplitMode.EVENLY, () => [1, paidFors.length])
+        .with(SplitMode.BY_SHARES, () => [paidFor.shares, totalPaidForShares])
+        .with(SplitMode.BY_PERCENTAGE, () => [paidFor.shares, totalPaidForShares])
+        .with(SplitMode.BY_AMOUNT, () => [paidFor.shares, totalPaidForShares])
+        .exhaustive();
 
       const dividedAmount = isLast
         ? remaining
