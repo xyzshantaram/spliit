@@ -11,7 +11,7 @@ export default function HomePage() {
       <section className="py-16 md:py-24 lg:py-32">
         <div className="container flex max-w-screen-md flex-col items-center gap-4 text-center">
           <h1 className="!leading-none font-bold text-3xl sm:text-5xl md:text-6xl lg:text-7xl landing-header py-2">
-            Welcome, friends!.
+            Welcome, friends!
           </h1>
           <p className="max-w-[42rem] leading-normal sm:text-xl sm:leading-8">
             This is spliit, a free and open-source Splitwise alternative. Go ahead and create a group for you and your friends!
