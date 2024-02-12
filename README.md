@@ -27,13 +27,11 @@ Consider supporting Sebastien, the original developer
    migrations and update Prisma Client.
 3. Run `npm run dev` to start the development server.
 
-## Run in a container
+## Deploy
 
-1. Run `npm run build-image` to build the docker image from the Dockerfile
-2. Copy the file `container.env.example` as `container.env`
-3. Run `npm run start-container` to start the postgres and the spliit2
-   containers
-4. You can access the app by browsing to `http://localhost:3000`.
+0. `npm install`
+1. `npm run build`
+2. `npm run start`
 
 ## Opt-in features
 
